@@ -1,4 +1,6 @@
-fetch("http://localhost:3000/api/products")
+let url = "http://localhost:3000/api/products";
+
+fetch(url)
 .then(function(res){
     if (res.ok) {
         return res.json();
@@ -6,13 +8,15 @@ fetch("http://localhost:3000/api/products")
 })
 .then(function(produits) {
     for (let i = 0; i < produits.length; i++) {
-        let image = produits[i].imageUrl;
-        let imageAlt = produits[i].altTxt;
-        let nom = produits[i].name;
-        let description = produits[i].description;
+        let produit = produits[i];
+        let id = produit._id;
+        let image = produit.imageUrl;
+        let imageAlt = produit.altTxt;
+        let nom = produit.name;
+        let description = produit.description;
 
         let elementLien = document.createElement("a");
-        elementLien.href = "./product.html?id=42";
+        elementLien.href = "./product.html?id=" + id;
 
         let elementArticle = document.createElement("article");
         elementLien.appendChild(elementArticle);
@@ -31,8 +35,7 @@ fetch("http://localhost:3000/api/products")
         elementDescription.innerHTML = (description);
         elementDescription.classList.add("productDescription");
         elementArticle.appendChild(elementDescription);
-        
-       document.getElementById("items").appendChild(elementLien);
 
+       document.getElementById("items").appendChild(elementLien);
     }
 });
