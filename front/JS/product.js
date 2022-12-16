@@ -2,7 +2,6 @@ let url = new URL(window.location.href);
 let id = url.searchParams.get("id");
 
 // Méthodes de gestion du localStorage
-
 function addProduits(id, couleur, quantite) {
     let listeProduits = getProduits();
 

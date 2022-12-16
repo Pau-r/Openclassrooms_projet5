@@ -3,6 +3,28 @@ let objJson = JSON.parse(stockage);
 
 let total = 0;
 
+// Modification quantité panier et prix total
+
+function calculQuantite() {
+    let totalNombreArticle = 0;
+    for (let totalArticle of objJson) {
+        totalNombreArticle += parseInt(totalArticle.quantite);
+    }
+
+    let elementTotalQuantite = document.getElementById("totalQuantity");
+    elementTotalQuantite.innerHTML = totalNombreArticle;
+}
+
+function calculTotal() {
+    let totalPrixArticle = 0;
+    for (let produit of objJson) {
+        let quantitePrix = parseInt(produit.quantite) * produit.prix;
+        totalPrixArticle += quantitePrix
+    }
+    let elementTotalPrix = document.getElementById("totalPrice");
+    elementTotalPrix.innerHTML = totalPrixArticle;
+}
+
 for (let i in objJson) {
     let produitPanier = objJson[i];
     let id = produitPanier.id;
@@ -25,8 +47,10 @@ for (let i in objJson) {
 
             let elementArticle = document.createElement("article");
             elementArticle.classList.add("cart__item");
+            elementArticle.dataset.id = id;
+            elementArticle.dataset.color = couleurs;
 
-            // IMAGE
+            // Image du produit
             let elementDivItemImage = document.createElement("div");
             elementDivItemImage.classList.add("cart__item__img");
             elementArticle.appendChild(elementDivItemImage);
@@ -36,14 +60,14 @@ for (let i in objJson) {
             elementImage.alt = imageAlt;
             elementDivItemImage.appendChild(elementImage);
 
-            // DESCRIPTION
+            // Description du produit
             let elementDivItemContent = document.createElement("div");
             elementDivItemContent.classList.add("cart__item__content");
             elementArticle.appendChild(elementDivItemContent);
 
             let elementDivItemContentDescription = document.createElement("div");
             elementDivItemContentDescription.classList.add("cart__item__content__description");
-            elementArticle.appendChild(elementDivItemContentDescription);
+            elementDivItemContent.appendChild(elementDivItemContentDescription);
 
             let elementTitre = document.createElement("h2");
             elementTitre.innerHTML = nom;
@@ -57,10 +81,10 @@ for (let i in objJson) {
             elementPrix.innerHTML = prix + " €";
             elementDivItemContentDescription.appendChild(elementPrix);
 
-            // QUANTITE
+            // Eléments indiquant la quantité
             let elementDivItemContentSettings = document.createElement("div");
             elementDivItemContentSettings.classList.add("cart__item__content__settings");
-            elementArticle.appendChild(elementDivItemContentSettings);
+            elementDivItemContent.appendChild(elementDivItemContentSettings);
 
             let elementDivItemContentSettingsQuantity = document.createElement("div");
             elementDivItemContentSettingsQuantity.classList.add("cart__item__content__settings__quantity");
@@ -71,18 +95,45 @@ for (let i in objJson) {
             elementDivItemContentSettingsQuantity.appendChild(elementQuantite);
 
             let elementInput = document.createElement("input");
-            elementInput.classList.add("itemQuantity");
             elementInput.setAttribute("type", "number");
+            elementInput.classList.add("itemQuantity");
             elementInput.setAttribute("name", "itemQuantity");
             elementInput.setAttribute("min", "1");
             elementInput.setAttribute("max", "100");
             elementInput.setAttribute("value", quantite);
+
+            elementInput.addEventListener("change", function (event) {
+                // Récupérer la nouvelle valeur de la quantité
+                let nouvelleQuantite = event.target.value;
+
+                // Avec element.closest, récupérer l'article HTML du produit
+                let produitModifie = elementInput.closest(".cart__item");
+
+                // Récupérer l'id et la couleur du produit concerné
+                let idProduit = produitModifie.dataset.id;
+                let couleurProduit = produitModifie.dataset.color;
+
+                // Rechercher dans ton panier le produit qui a le même id et la même couleur
+                for (let i in objJson) {
+                    if (objJson[i].id == idProduit && objJson[i].couleur == couleurProduit) {
+                        // Modifier la quantité du produit avec la nouvelle
+                        objJson[i].quantite = nouvelleQuantite;
+                    }
+                }
+                calculQuantite();
+                calculTotal();
+
+                // Enregistrer la nouvelle liste de produits (le panier) dans le local storage
+                localStorage.setItem("listeProduits", JSON.stringify(objJson));
+
+            })
+
             elementDivItemContentSettingsQuantity.appendChild(elementInput);
 
-            // SUPPRIMER
+            // Bouton supprimer
             let elementDivItemContentSettingsDelete = document.createElement("div");
             elementDivItemContentSettingsDelete.classList.add("cart__item__content__settings__delete");
-            elementArticle.appendChild(elementDivItemContentSettingsDelete);
+            elementDivItemContentSettings.appendChild(elementDivItemContentSettingsDelete);
 
             let elementSupprimer = document.createElement("p");
             elementSupprimer.innerHTML = ("Supprimer");
@@ -90,6 +141,34 @@ for (let i in objJson) {
             elementDivItemContentSettingsDelete.appendChild(elementSupprimer);
 
             document.getElementById("cart__items").appendChild(elementArticle);
+
+            // Suppression d'un article
+            elementSupprimer.addEventListener("click", function () {
+                let elementDeSuppression = elementSupprimer.closest(".deleteItem");
+                let idProduit = elementDeSuppression.dataset.id;
+                let couleurProduit = elementDeSuppression.dataset.color;
+                let indexDuProduitASupprimer;
+
+                for (let i in objJson) {
+                    if (objJson[i].id == idProduit && objJson[i].couleur == couleurProduit) {
+                        indexDuProduitASupprimer == i;
+                    }
+                }
+                // Splice sur l'index du produit
+                objJson.splice(indexDuProduitASupprimer, 1);
+
+                // Supprime l'élement HTML
+                document.getElementById("cart__items").removeChild(elementArticle);
+
+                // Calcul du panier
+                calculQuantite();
+                calculTotal();
+
+                // Enregistrer la nouvelle liste de produits (le panier) dans le local storage
+                localStorage.setItem("listeProduits", JSON.stringify(objJson));
+            }
+
+            )
 
             // TOTAL PRIX
             let totalPrixArticle = prix * quantite;
@@ -100,10 +179,4 @@ for (let i in objJson) {
 }
 
 // TOTAL ARTICLE
-let totalNombreArticle = 0;
-for (let totalArticle of objJson) {
-    totalNombreArticle += parseInt(totalArticle.quantite);
-}
-
-let elementTotalQuantite = document.getElementById("totalQuantity");
-elementTotalQuantite.innerHTML = totalNombreArticle;
+calculQuantite();
