@@ -3,7 +3,7 @@ let objJson = JSON.parse(stockage);
 
 let total = 0;
 
-// Modification quantité panier et prix total
+// Modification quantité du panier
 
 function calculQuantite() {
     let totalNombreArticle = 0;
@@ -14,7 +14,7 @@ function calculQuantite() {
     let elementTotalQuantite = document.getElementById("totalQuantity");
     elementTotalQuantite.innerHTML = totalNombreArticle;
 }
-
+// Modification total du panier
 function calculTotal() {
     let totalPrixArticle = 0;
     for (let produit of objJson) {
@@ -125,7 +125,6 @@ for (let i in objJson) {
 
                 // Enregistrer la nouvelle liste de produits (le panier) dans le local storage
                 localStorage.setItem("listeProduits", JSON.stringify(objJson));
-
             })
 
             elementDivItemContentSettingsQuantity.appendChild(elementInput);
@@ -166,9 +165,7 @@ for (let i in objJson) {
 
                 // Enregistrer la nouvelle liste de produits (le panier) dans le local storage
                 localStorage.setItem("listeProduits", JSON.stringify(objJson));
-            }
-
-            )
+            })
 
             // TOTAL PRIX
             let totalPrixArticle = prix * quantite;
@@ -180,3 +177,51 @@ for (let i in objJson) {
 
 // TOTAL ARTICLE
 calculQuantite();
+
+// Validation des données utilisateurs
+
+let prenom = document.getElementById("firstName");
+let erreurPrenom = document.getElementById("firstNameErrorMsg");
+let nom = document.getElementById("lastName");
+let erreurNom = document.getElementById("lastNameErrorMsg");
+let adresse = document.getElementById("adress");
+let erreurAdresse = document.getElementById("adressErrorMsg");
+let ville = document.getElementById("city");
+let erreurVille = document.getElementById("cityErrorMsg");
+let email = document.getElementById("email");
+let erreurEmail = document.getElementById("emailErrorMsg");
+let inputCommander = document.getElementById("order");
+
+inputCommander.addEventListener ("click", function(event) {
+  
+    
+    // Validation prénom
+    erreurPrenom.innerHTML = " ";
+    if (!/^[A-Za-zÀ-ú]+$/.test(prenom.value)){
+        erreurPrenom.innerHTML = "Invalide";
+    }
+    // Validation nom
+    erreurNom.innerHTML = " ";
+    if (!/^[A-Za-zÀ-ú]+$/.test(nom.value)){
+        erreurNom.innerHTML = "Invalide";
+    } 
+    // Validation adresse
+    erreurAdresse.innerHTML = " ";
+    if (!/^[0-9A-Za-zÀ-ú]+$/.test(adresse.value)){
+        erreurAdresse.innerHTML = "Invalide";
+    }
+    // Validation ville
+    erreurVille.innerHTML = " ";
+    if (!/^[A-Za-zÀ-ú]+$/.test(ville.value)){
+        erreurVille.innerHTML = "Invalide";
+    }
+    // Validation email
+    erreurEmail.innerHTML = " ";
+    if (!/^[A-Za-z0-9]+@[A-Za-z0-9]+.[A-Za-z0-9]+$/.test(email.value)){
+        erreurEmail.innerHTML = "Invalide";
+    }
+
+
+}
+
+)
