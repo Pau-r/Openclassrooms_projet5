@@ -25,7 +25,7 @@ fetch(url)
             elementImage.src = (image);
             elementImage.alt = (imageAlt);
             elementArticle.appendChild(elementImage);
-            // H3
+            // Titre
             let elementTitre = document.createElement("h3");
             elementTitre.innerHTML = (nom);
             elementTitre.classList.add("productName");

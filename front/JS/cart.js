@@ -184,44 +184,104 @@ let prenom = document.getElementById("firstName");
 let erreurPrenom = document.getElementById("firstNameErrorMsg");
 let nom = document.getElementById("lastName");
 let erreurNom = document.getElementById("lastNameErrorMsg");
-let adresse = document.getElementById("adress");
-let erreurAdresse = document.getElementById("adressErrorMsg");
+let adresse = document.getElementById("address");
+let erreurAdresse = document.getElementById("addressErrorMsg");
 let ville = document.getElementById("city");
 let erreurVille = document.getElementById("cityErrorMsg");
 let email = document.getElementById("email");
 let erreurEmail = document.getElementById("emailErrorMsg");
 let inputCommander = document.getElementById("order");
 
-inputCommander.addEventListener ("click", function(event) {
-  
-    
+// Requête POST sur API pour récupérer l'identifiant de la commande 
+
+function envoie() {
+    // Objet avec le contenu du formulaire
+    let contact = {
+        firstName: prenom.value,
+        lastName: nom.value,
+        address: adresse.value,
+        city: ville.value,
+        email: email.value
+    };
+    // Tableau des produits
+    let idProduits = [];
+    // Ajout des id des produits dans le tableau des produits 
+    for (let i in objJson) {
+        idProduits.push(objJson[i].id);
+    };
+
+    // Objet contenant le formulaire et les id des produits du panier
+    let commande = {
+        contact: contact,
+        products: idProduits
+    };
+    // Requête POST sur l'API 
+    fetch("http://localhost:3000/api/products/order", {
+        method: "post",
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(commande),
+    })
+        .then(function (res) {
+            if (res.ok) {
+                return res.json();
+            }
+        })
+        .then(function (reponseOrder) {
+            let orderId = reponseOrder.orderId;
+            window.location.href = "confirmation.html?orderId=" + orderId;
+        }
+        )
+}
+
+inputCommander.addEventListener("click", function (event) {
+
+    let erreur = false;
+
     // Validation prénom
     erreurPrenom.innerHTML = " ";
-    if (!/^[A-Za-zÀ-ú]+$/.test(prenom.value)){
-        erreurPrenom.innerHTML = "Invalide";
+    if (!/^[A-zÀ-ÿ -]+$/.test(prenom.value)) {
+        erreurPrenom.innerHTML = "Le champ de saisie n'est pas valide";
+        erreur = true;
     }
     // Validation nom
     erreurNom.innerHTML = " ";
-    if (!/^[A-Za-zÀ-ú]+$/.test(nom.value)){
-        erreurNom.innerHTML = "Invalide";
-    } 
+    if (!/^[A-zÀ-ÿ -]+$/.test(nom.value)) {
+        erreurNom.innerHTML = "Le champs de saisi n'est pas valide";
+        erreur = true;
+    }
     // Validation adresse
     erreurAdresse.innerHTML = " ";
-    if (!/^[0-9A-Za-zÀ-ú]+$/.test(adresse.value)){
-        erreurAdresse.innerHTML = "Invalide";
+    if (!/^[A-zÀ-ÿ0-9 ,-]+$/.test(adresse.value)) {
+        erreurAdresse.innerHTML = "Le champs de saisi n'est pas valide";
+        erreur = true;
     }
     // Validation ville
     erreurVille.innerHTML = " ";
-    if (!/^[A-Za-zÀ-ú]+$/.test(ville.value)){
-        erreurVille.innerHTML = "Invalide";
+    if (!/^[A-zÀ-ÿ -]+$/.test(ville.value)) {
+        erreurVille.innerHTML = "Le champs de saisi n'est pas valide";
+        erreur = true;
     }
     // Validation email
     erreurEmail.innerHTML = " ";
-    if (!/^[A-Za-z0-9]+@[A-Za-z0-9]+.[A-Za-z0-9]+$/.test(email.value)){
-        erreurEmail.innerHTML = "Invalide";
+    if (!/^.+@.+\..+$/.test(email.value)) {
+        erreurEmail.innerHTML = "Le champs de saisi n'est pas valide ";
+        erreur = true;
     }
 
+    // TODO faire l'envoi
+    if(erreur == false) {
+        envoie();
+    }
+})
 
-}
+// Objet créé avec les données du formulaire
 
-)
+document.getElementsByClassName("cart__order__form")[0].addEventListener("submit", (event) => {
+    event.preventDefault();
+    event.stopPropagation();
+});
+//window.location.href="" 
+
