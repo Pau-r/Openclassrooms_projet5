@@ -242,38 +242,45 @@ inputCommander.addEventListener("click", function (event) {
 
     // Validation prénom
     erreurPrenom.innerHTML = " ";
-    if (!/^[A-zÀ-ÿ -]+$/.test(prenom.value)) {
+    if (!/^[A-zÀ-ÿ -]{2,50}$/.test(prenom.value)) {
         erreurPrenom.innerHTML = "Le champ de saisie n'est pas valide";
         erreur = true;
     }
     // Validation nom
     erreurNom.innerHTML = " ";
-    if (!/^[A-zÀ-ÿ -]+$/.test(nom.value)) {
-        erreurNom.innerHTML = "Le champs de saisi n'est pas valide";
+    if (!/^[A-zÀ-ÿ -]{1,100}$/.test(nom.value)) {
+        erreurNom.innerHTML = "Le champ de saisi n'est pas valide";
         erreur = true;
     }
     // Validation adresse
     erreurAdresse.innerHTML = " ";
-    if (!/^[A-zÀ-ÿ0-9 ,-]+$/.test(adresse.value)) {
-        erreurAdresse.innerHTML = "Le champs de saisi n'est pas valide";
+    if (!/^[A-zÀ-ÿ0-9 ,-]{10,200}$/.test(adresse.value)) {
+        erreurAdresse.innerHTML = "Le champ de saisi n'est pas valide";
         erreur = true;
     }
     // Validation ville
     erreurVille.innerHTML = " ";
-    if (!/^[A-zÀ-ÿ -]+$/.test(ville.value)) {
-        erreurVille.innerHTML = "Le champs de saisi n'est pas valide";
+    if (!/^[A-zÀ-ÿ -]{2,100}$/.test(ville.value)) {
+        erreurVille.innerHTML = "Le champ de saisi n'est pas valide";
         erreur = true;
     }
     // Validation email
     erreurEmail.innerHTML = " ";
     if (!/^.+@.+\..+$/.test(email.value)) {
-        erreurEmail.innerHTML = "Le champs de saisi n'est pas valide ";
+        erreurEmail.innerHTML = "Le champ de saisi n'est pas valide ";
         erreur = true;
     }
 
-    // TODO faire l'envoi
+    // Vérification si le panier est vide 
+    if (objJson.length == 0){
+        alert("Votre panier est vide");
+        erreur = true;
+    }
+
+    // Envoi
     if(erreur == false) {
         envoie();
+        localStorage.clear();
     }
 })
 
@@ -283,5 +290,4 @@ document.getElementsByClassName("cart__order__form")[0].addEventListener("submit
     event.preventDefault();
     event.stopPropagation();
 });
-//window.location.href="" 
 

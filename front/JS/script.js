@@ -38,4 +38,8 @@ fetch(url)
 
             document.getElementById("items").appendChild(elementLien);
         }
+    })
+    .catch(function () {
+        document.getElementById("items").innerHTML = "Une erreur s'est produite";
     });
+  

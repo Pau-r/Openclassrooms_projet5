@@ -81,16 +81,20 @@ fetch("http://localhost:3000/api/products/" + id)
 
             let couleur = getCouleurSelectionee();
             let quantite = document.getElementById("quantity").value;
+            // Sélection de la couleur et de la quantité sinon
+            if (couleur == "--SVP, choisissez une couleur --" && quantite == 0 ){
+                alert("Veuillez sélectionner une couleur et une quantité SVP")
+            }
             // Sélection de la couleur sinon alert
-            if (couleur == "--SVP, choisissez une couleur --") {
+           else if (couleur == "--SVP, choisissez une couleur --") {
                 alert("Veuillez sélectionner une couleur");
             }
             // Sélection de la quantité sinon alerte
-            if (quantite == 0) {
+            else if (quantite == 0) {
                 alert("Veuillez choisir une quantité");
             }
             // Vérification si le produit avec le même Id et la même couleur est déjà dans le panier
-            if (couleur != "--SVP, choisissez une couleur --" && parseInt(quantite) != 0) {
+            else if (couleur != "--SVP, choisissez une couleur --" && parseInt(quantite) != 0) {
                 ajoutAuPanier(id, couleur, quantite)
             }
 
