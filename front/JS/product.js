@@ -1,4 +1,6 @@
+// 
 let url = new URL(window.location.href);
+// 
 let id = url.searchParams.get("id");
 
 // Méthodes de gestion du localStorage
@@ -35,7 +37,7 @@ function getCouleurSelectionee() {
     return elementSelecteurCouleur.options[indexCouleurSelectionnee].text;
 }
 
-// Appel Api avec l'id de la page du produit
+// Appel Api avec l'id de la page du produit et récupération des données
 fetch("http://localhost:3000/api/products/" + id)
     .then(function (res) {
         if (res.ok) {
@@ -72,6 +74,19 @@ fetch("http://localhost:3000/api/products/" + id)
             elementColor.innerHTML = couleur;
             document.getElementById("colors").appendChild(elementColor);
         }
+
+        // Modification de la quantité l'input tapé par l'utilisateur 
+        let elementInput = document.getElementById("quantity"); 
+        elementInput.addEventListener("input", function (event) {
+            // Récupérer la nouvelle quantité tapée par l'utilisateur et changement de la valeur en nombre
+            let quantiteTape = parseInt(event.target.value);
+
+            // Si la quantité tapée est supérieur à 100, elle revient à 100
+            if (quantiteTape > 100) {
+                elementInput.value = 100;
+            }
+        }
+        )
 
         // Lorsque que l'on clique sur "ajouter au panier"
         let addCart = document.getElementById("addToCart");
@@ -131,6 +146,7 @@ fetch("http://localhost:3000/api/products/" + id)
                     // Produit absent du panier, on l'ajoute
                 }
             }
+            // Indique à l'utilisateur que l'article a été ajouté au panier
             alert("Ajouté !");
         }
     }

@@ -1,11 +1,14 @@
+// Variable du lien de l'API
 let url = "http://localhost:3000/api/products";
-
+// Récupération des données de l'API
 fetch(url)
+    // Si la requête est OK
     .then(function (res) {
         if (res.ok) {
             return res.json();
         }
     })
+    // Récupération des valeurs des données de l'API
     .then(function (produits) {
         for (let i in produits) {
             let produit = produits[i];
@@ -39,7 +42,7 @@ fetch(url)
             document.getElementById("items").appendChild(elementLien);
         }
     })
+    // Si la réquête n'est pas OK, elle affiche un message d'erreur 
     .catch(function () {
         document.getElementById("items").innerHTML = "Une erreur s'est produite";
     });
-  
