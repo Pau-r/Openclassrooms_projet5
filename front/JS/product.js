@@ -1,6 +1,6 @@
-// 
+// Objet URL permet d'accéder au composant de l'url
 let url = new URL(window.location.href);
-// 
+// Récupération de l'id dans les paramètres de l'URL
 let id = url.searchParams.get("id");
 
 // Méthodes de gestion du localStorage
@@ -12,9 +12,9 @@ function addProduits(id, couleur, quantite) {
         quantite: quantite,
         couleur: couleur
     };
-
+    // Ajout du produit
     listeProduits.push(produitAAjouter);
-
+    //Sauvegarde du produit ajouté
     saveProduits(listeProduits);
 }
 // Récupération les données du produit du localstorage

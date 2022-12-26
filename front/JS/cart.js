@@ -1,4 +1,4 @@
-// Récupération des données du localstorage en chaine dde caractère
+// Récupération des données du localstorage en chaine de caractères
 let panierString = localStorage.getItem("listeProduits");
 let panier;
 
@@ -71,7 +71,7 @@ if (panierString == null) {
                     let prix = produitApi.price;
 
                     panier[i].prix = prix;
-
+                    // Création de l'élément article
                     let elementArticle = document.createElement("article");
                     elementArticle.classList.add("cart__item");
                     elementArticle.dataset.id = id;
@@ -81,7 +81,7 @@ if (panierString == null) {
                     let elementDivItemImage = document.createElement("div");
                     elementDivItemImage.classList.add("cart__item__img");
                     elementArticle.appendChild(elementDivItemImage);
-
+                    // Création de l'élément Img
                     let elementImage = document.createElement("img");
                     elementImage.src = image;
                     elementImage.alt = imageAlt;
@@ -95,15 +95,15 @@ if (panierString == null) {
                     let elementDivItemContentDescription = document.createElement("div");
                     elementDivItemContentDescription.classList.add("cart__item__content__description");
                     elementDivItemContent.appendChild(elementDivItemContentDescription);
-
+                    // Titre
                     let elementTitre = document.createElement("h2");
                     elementTitre.innerHTML = nom;
                     elementDivItemContentDescription.appendChild(elementTitre);
-
+                    // Texte couleur
                     let elementColor = document.createElement("p");
                     elementColor.innerHTML = couleurs;
                     elementDivItemContentDescription.appendChild(elementColor);
-
+                    // Texte prix
                     let elementPrix = document.createElement("p");
                     elementPrix.innerHTML = prix + " €";
                     elementDivItemContentDescription.appendChild(elementPrix);
@@ -116,11 +116,11 @@ if (panierString == null) {
                     let elementDivItemContentSettingsQuantity = document.createElement("div");
                     elementDivItemContentSettingsQuantity.classList.add("cart__item__content__settings__quantity");
                     elementDivItemContentSettings.appendChild(elementDivItemContentSettingsQuantity);
-
+                    // Quantité
                     let elementQuantite = document.createElement("p");
                     elementQuantite.innerHTML = ("Qté : ");
                     elementDivItemContentSettingsQuantity.appendChild(elementQuantite);
-
+                    // Input
                     let elementInput = document.createElement("input");
                     elementInput.setAttribute("type", "number");
                     elementInput.classList.add("itemQuantity");
@@ -128,7 +128,7 @@ if (panierString == null) {
                     elementInput.setAttribute("min", "1");
                     elementInput.setAttribute("max", "100");
                     elementInput.setAttribute("value", quantite);
-
+                    
                     elementInput.addEventListener("input", function (event) {
                         // Récupérer la nouvelle quantité tapée par l'utilisateur et changement de la valeur en nombre
                         let quantiteTape = parseInt(event.target.value);
