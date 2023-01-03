@@ -76,7 +76,7 @@ fetch("http://localhost:3000/api/products/" + id)
         }
 
         // Modification de la quantité l'input tapé par l'utilisateur 
-        let elementInput = document.getElementById("quantity"); 
+        let elementInput = document.getElementById("quantity");
         elementInput.addEventListener("input", function (event) {
             // Récupérer la nouvelle quantité tapée par l'utilisateur et changement de la valeur en nombre
             let quantiteTape = parseInt(event.target.value);
@@ -84,6 +84,10 @@ fetch("http://localhost:3000/api/products/" + id)
             // Si la quantité tapée est supérieur à 100, elle revient à 100
             if (quantiteTape > 100) {
                 elementInput.value = 100;
+            }
+            // Si la quantité est inférieur à 0, elle revient à 0
+            if (quantiteTape < 0) {
+                elementInput.value = 0;
             }
         }
         )
@@ -97,11 +101,11 @@ fetch("http://localhost:3000/api/products/" + id)
             let couleur = getCouleurSelectionee();
             let quantite = document.getElementById("quantity").value;
             // Sélection de la couleur et de la quantité sinon
-            if (couleur == "--SVP, choisissez une couleur --" && quantite == 0 ){
+            if (couleur == "--SVP, choisissez une couleur --" && quantite == 0) {
                 alert("Veuillez sélectionner une couleur et une quantité SVP")
             }
             // Sélection de la couleur sinon alert
-           else if (couleur == "--SVP, choisissez une couleur --") {
+            else if (couleur == "--SVP, choisissez une couleur --") {
                 alert("Veuillez sélectionner une couleur");
             }
             // Sélection de la quantité sinon alerte

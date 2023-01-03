@@ -137,6 +137,10 @@ if (panierString == null) {
                         if (quantiteTape > 100) {
                             elementInput.value = 100;
                         }
+                        // Si la quantité est inférieur à 0, elle revient à 0
+                        if (quantiteTape < 0) {
+                            elementInput.value = 0;
+                        }
                     }
                     )
 
